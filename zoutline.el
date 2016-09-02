@@ -63,7 +63,7 @@ Return nil if moved 0 times."
   "Move ARG times down by outline."
   (interactive "p")
   (setq arg (or arg 1))
-  (let ((lvl (org-outline-level))
+  (let ((lvl (funcall outline-level))
         res)
     (if (= lvl 1)
         (re-search-forward (aref zo-lvl-re lvl) nil t arg)
