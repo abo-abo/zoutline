@@ -64,6 +64,8 @@ Return nil if moved 0 times."
                    "\n\\*\\{6\\} "
                    "\n\\*\\{7\\} "])
 
+(declare-function reveal-post-command "reveal")
+
 (defun zo-down-visible (&optional arg)
   "Move ARG times down by outline."
   (interactive "p")
