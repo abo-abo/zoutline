@@ -2,6 +2,11 @@
 
 ;; Copyright (C) 2016 Oleh Krehel
 
+;; Author: Oleh Krehel <ohwoeowho@gmail.com>
+;; URL: https://github.com/abo-abo/zoutline
+;; Version: 0.1.0
+;; Keywords: outline
+
 ;; This file is not part of GNU Emacs
 
 ;; This file is free software; you can redistribute it and/or modify
