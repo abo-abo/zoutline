@@ -73,7 +73,7 @@ Return nil if moved 0 times."
   (let ((lvl (funcall outline-level))
         res)
     (if (= lvl 1)
-        (re-search-forward (aref zo-lvl-re lvl) nil t arg)
+        (setq res (re-search-forward (aref zo-lvl-re lvl) nil t arg))
       (let ((end (save-excursion
                    (or (re-search-forward (aref zo-lvl-re (1- lvl)) nil t)
                        (point-max)))))
