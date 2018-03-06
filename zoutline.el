@@ -41,6 +41,8 @@
 Return the amount of times moved.
 Return nil if moved 0 times."
   (interactive "p")
+  (unless (bolp)
+    (outline-back-to-heading))
   (let ((pt 0)
         (i 0)
         (outline-ok t))
@@ -107,6 +109,37 @@ Return nil if moved 0 times."
       (cl-incf i))
     (unless (= i 0)
       i)))
+
+(defun zo-add-outline-title ()
+  (save-excursion
+    (outline-previous-visible-heading 1)
+    (if (looking-at (concat outline-regexp " ?:$"))
+        (match-string-no-properties 0)
+      (let ((outline-comment
+             (progn
+               (string-match "\\(.*\\)\\(?:[\\](\\)\\|\\([\\]\\*\\+\\)" outline-regexp)
+               (match-string-no-properties 1 outline-regexp))))
+        (concat outline-comment (make-string (1+ (funcall outline-level)) ?*) " :")))))
+
+(defun zo-insert-outline-below ()
+  (interactive)
+  "Add an unnamed notebook outline at point."
+  (cond
+    ((and (bolp) (eolp)))
+    ((outline-next-visible-heading 1)
+     (insert "\n\n")
+     (backward-char 2))
+    (t
+     (goto-char (point-max))
+     (unless (bolp)
+       (insert "\n"))))
+  (let ((start (point))
+        (title (zo-add-outline-title)))
+    (skip-chars-backward "\n")
+    (delete-region (point) start)
+    (insert "\n\n" title "\n")
+    (let ((inhibit-message t))
+      (save-buffer))))
 
 (provide 'zoutline)
 
