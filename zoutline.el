@@ -141,6 +141,17 @@ Return nil if moved 0 times."
     (let ((inhibit-message t))
       (save-buffer))))
 
+(defun zo-end-of-subtree ()
+  "Goto to the end of a subtree."
+  (outline-back-to-heading t)
+  (let ((first t)
+        (level (funcall outline-level)))
+    (while (and (not (eobp))
+                (or first (> (funcall outline-level) level)))
+      (setq first nil)
+      (outline-next-heading)))
+  (point))
+
 (provide 'zoutline)
 
 ;;; zoutline.el ends here
