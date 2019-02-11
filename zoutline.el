@@ -154,17 +154,20 @@ Return nil if moved 0 times."
 
 (defun zo-bnd-subtree ()
   "Return a cons of heading end and subtree end."
-  (save-excursion
-    (outline-back-to-heading)
-    (cons
-     (save-excursion
-       (outline-end-of-heading)
-       (point))
-     (save-excursion
-       (zo-end-of-subtree)
-       (when (bolp)
-         (backward-char))
-       (point)))))
+  (condition-case nil
+      (progn
+        (outline-back-to-heading)
+        (cons
+         (save-excursion
+           (outline-end-of-heading)
+           (point))
+         (save-excursion
+           (zo-end-of-subtree)
+           (when (bolp)
+             (backward-char))
+           (point))))
+    (error
+     (cons (point-min) (point-max)))))
 
 (provide 'zoutline)
 
