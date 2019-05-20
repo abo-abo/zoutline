@@ -4,7 +4,7 @@
 
 ;; Author: Oleh Krehel <ohwoeowho@gmail.com>
 ;; URL: https://github.com/abo-abo/zoutline
-;; Version: 0.1.0
+;; Version: 0.2.0
 ;; Keywords: outline
 
 ;; This file is not part of GNU Emacs
