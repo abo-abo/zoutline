@@ -86,7 +86,21 @@ Return nil if moved 0 times."
       (point))))
 
 (defun zo-left (arg)
-  (outline-up-heading arg))
+  "Move left up to ARG levels.
+Return the amount of levels moved."
+  (outline-back-to-heading)
+  (let ((start-level (funcall outline-level))
+        (res 0))
+    (unless (<= start-level 1)
+      (while (and (> start-level 1) (> arg 0) (not (bobp)))
+        (let ((level start-level))
+          (while (not (or (< level start-level) (bobp)))
+            (outline-previous-visible-heading 1)
+            (setq level (funcall outline-level)))
+          (setq start-level level))
+        (cl-incf res)
+        (cl-decf arg))
+      res)))
 
 (defun zo-right-once ()
   (let ((pt (point))
