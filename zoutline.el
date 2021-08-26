@@ -184,6 +184,16 @@ Return nil if moved 0 times."
       (error
        (cons (point-min) (point-max))))))
 
+(defun zo-goto-heading (heading)
+  "Goto a top-level HEADING and set the match data.
+Insert HEADING if it doesn't exist."
+  (let ((regex (concat "^\\* " heading)))
+    (goto-char (point-min))
+    (unless (re-search-forward regex nil t)
+      (goto-char (point-max))
+      (insert "* " heading)
+      (looking-back regex (line-beginning-position)))))
+
 (provide 'zoutline)
 
 ;;; zoutline.el ends here
