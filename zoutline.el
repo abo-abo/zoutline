@@ -184,15 +184,22 @@ Return nil if moved 0 times."
       (error
        (cons (point-min) (point-max))))))
 
-(defun zo-goto-heading (heading)
-  "Goto a top-level HEADING and set the match data.
-Insert HEADING if it doesn't exist."
-  (let ((regex (concat "^\\* " heading)))
+(defun zo-goto-headings (headings)
+  "Goto the last item in HEADINGS and set the match data.
+Each subsequent heading in HEADINGS is nested under the previous one.
+Insert any that doesn't exist."
+  (let ((level 1))
     (goto-char (point-min))
-    (unless (re-search-forward regex nil t)
-      (goto-char (point-max))
-      (insert "* " heading)
-      (looking-back regex (line-beginning-position)))))
+    (dolist (heading headings)
+      (let* ((stars (make-string level ?*))
+             (line (concat stars " " heading)))
+        (unless (search-forward line nil t)
+          (goto-char (point-max))
+          (while (and (bolp) (eolp)) (delete-char -1))
+          (insert "\n" stars " " heading))
+        (cl-incf level)))
+    (set-match-data
+     (list (line-beginning-position) (line-end-position)))))
 
 (provide 'zoutline)
 
