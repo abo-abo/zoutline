@@ -201,6 +201,16 @@ Insert any that doesn't exist."
     (set-match-data
      (list (line-beginning-position) (line-end-position)))))
 
+(defun zo-hide-heading (heading)
+  "Search for HEADING and hide it.
+When HEADING is 'current, hide the current heading."
+  (save-excursion
+    (when (or (eq heading 'current)
+              (progn
+                (goto-char (point-min))
+                (re-search-forward (concat "^\\*+ " (regexp-quote heading)) nil t)))
+      (outline-flag-subtree t))))
+
 (provide 'zoutline)
 
 ;;; zoutline.el ends here
