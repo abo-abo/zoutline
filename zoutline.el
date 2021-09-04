@@ -211,6 +211,20 @@ When HEADING is 'current, hide the current heading."
                 (re-search-forward (concat "^\\*+ " (regexp-quote heading)) nil t)))
       (outline-flag-subtree t))))
 
+(defun zo-fold-heading (heading)
+  "Search for HEADING and fold it into contents.
+When HEADING is 'current, fold the current heading."
+  (save-excursion
+    (when (or (eq heading 'current)
+              (progn
+                (goto-char (point-min))
+                (re-search-forward (concat "^\\*+ " (regexp-quote heading)) nil t)))
+      (let ((bnd (zo-bnd-subtree)))
+        (outline-flag-region (car bnd) (cdr bnd) t)
+        (org-cycle-internal-local)
+        (when (eq (char-before (cdr bnd)) 10)
+          (outline-flag-region (- (cdr bnd) 1) (cdr bnd) nil))))))
+
 (provide 'zoutline)
 
 ;;; zoutline.el ends here
