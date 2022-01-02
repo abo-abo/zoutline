@@ -23,6 +23,7 @@
 ;; see <http://www.gnu.org/licenses/>.
 
 (require 'outline)
+(require 'org)
 
 (defun zo-up (arg)
   "Move ARG times up by outline."
